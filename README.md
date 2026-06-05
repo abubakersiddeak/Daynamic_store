@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛍️ Cosmatics Store - eCommerce Platform
 
-## Getting Started
+A complete production-ready ecommerce website built for a local cosmetics business using modern web technologies.
 
-First, run the development server:
+## ✨ Features
+
+### Public Website ✅
+
+- 🏠 Beautiful home page with hero section and featured products
+- 📦 Complete product catalog with search, filter, and sort
+- 🛒 Shopping cart with persistent storage
+- 💳 Checkout system with Cash on Delivery
+- 📧 Order confirmation and tracking
+- 📱 Fully responsive mobile-first design
+
+### Admin Dashboard ✅
+
+- 📊 Analytics dashboard with sales metrics
+- 🛍️ Product management with image uploads
+- 🏷️ Category management
+- 📋 Order management with status tracking
+- 👥 Customer view
+- ⚙️ Settings management
+
+## 🔧 Tech Stack
+
+Next.js 16, TypeScript, MongoDB, Mongoose, Tailwind CSS, Zustand, React Hook Form, Zod
+
+## 🚀 Quick Start
+
+### Setup
 
 ```bash
+npm install
+cp .env.example .env.local
+# Edit .env.local with your MongoDB URI and ImgBB API key
+npm run seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Admin Dashboard
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Access at [http://localhost:3000/admin](http://localhost:3000/admin)
 
-## Learn More
+## 📚 Documentation
 
-To learn more about Next.js, take a look at the following resources:
+- **[SETUP.md](./SETUP.md)** - Detailed setup instructions
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deployment guides (Vercel, Self-hosted)
+- **[AUTHENTICATION.md](./AUTHENTICATION.md)** - Adding authentication before production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 Available Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run dev              # Start dev server
+npm run build            # Build for production
+npm start                # Start production server
+npm run seed             # Seed with demo data
+npm run lint             # Run linter
+```
 
-## Deploy on Vercel
+## 🔐 Security Notice
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+⚠️ **Admin dashboard is currently unprotected!** Add authentication before production deployment.
+See [AUTHENTICATION.md](./AUTHENTICATION.md) for implementation guide.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+
+MIT
+
+---
+
+**Built with ❤️ for modern ecommerce**
