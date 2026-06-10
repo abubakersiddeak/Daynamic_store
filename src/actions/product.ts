@@ -171,18 +171,21 @@ export async function getProducts(
       rating: { rating: -1, reviews: -1 },
     } as const;
 
-    const sort =
-      sortMap[options.sortBy ?? "newest"] ?? sortMap.newest;
+    const sort = sortMap[options.sortBy ?? "newest"] ?? sortMap.newest;
 
+    // 1. Fetch lightweight, plain data objects directly from MongoDB
     const products = await Product.find(query)
       .skip(skip)
       .limit(limitValue)
-      .sort(sort);
+      .sort(sort)
+      .lean();
+
     const total = await Product.countDocuments(query);
 
     return {
       success: true,
-      products: products.map((p) => p.toObject()),
+      // 2. This instantly converts ObjectIds and Dates into simple strings
+      products: JSON.parse(JSON.stringify(products)),
       pagination: {
         page: pageValue,
         limit: limitValue,

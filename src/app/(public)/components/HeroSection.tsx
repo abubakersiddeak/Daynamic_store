@@ -5,6 +5,7 @@ import { getProducts } from "@/actions/product";
 import { getStoreSettings } from "@/actions/settings";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight, BadgePercent, Sparkles, Truck } from "lucide-react";
+import { Product } from "@/types";
 
 export default async function HeroSection() {
   const [productsRes, settingsRes] = await Promise.all([
@@ -19,16 +20,14 @@ export default async function HeroSection() {
     settingsRes.success && settingsRes.settings ? settingsRes.settings : null;
 
   const bestSellingProducts = products
-    .filter((product) => product.isBestSeller || product.reviews > 120)
+    .filter((product: Product) => product.isBestSeller || product.reviews > 120)
     .slice(0, 4);
 
   const heroTitle = settings?.heroTitle || "Luxury beauty, delivered locally";
   const heroSubtitle =
     settings?.heroSubtitle ||
     "Daily-wear skincare, statement makeup, and reliable cash-on-delivery service for your regular customers.";
-  const bannerImage =
-    settings?.bannerImage ||
-    "https://images.unsplash.com/photo-1583209814683-c023dd293cc6?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29zbWV0aWNzfGVufDB8fDB8fHww";
+  const bannerImage = settings?.bannerImage || "";
   return (
     <section className="relative overflow-hidden bg-stone-950 text-white">
       <div className="absolute inset-0 opacity-35">
@@ -37,6 +36,7 @@ export default async function HeroSection() {
           alt="Cosmetics collection"
           fill
           className="object-cover"
+          priority
         />
       </div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.5),transparent_35%)]" />

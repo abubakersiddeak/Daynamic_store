@@ -8,12 +8,12 @@ import { revalidatePath } from "next/cache";
 export async function createCategory(formData: FormData) {
   try {
     await connectDB();
-
+    console.log(formData);
     const data = {
       name: formData.get("name"),
       slug: formData.get("slug"),
-      description: formData.get("description"),
-      image: formData.get("image"),
+      description: formData.get("description") || undefined,
+      image: formData.get("image") || "",
       parent: formData.get("parent") || undefined,
     };
 
@@ -105,7 +105,7 @@ export async function getCategories() {
 
     return {
       success: true,
-      categories: categories.map((c) => c.toObject()),
+      categories: JSON.parse(JSON.stringify(categories)),
     };
   } catch (error) {
     console.error("Get categories error:", error);

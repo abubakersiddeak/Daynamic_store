@@ -117,10 +117,10 @@ export default function AdminSettingsPage() {
 
       <form onSubmit={handleSave} className="max-w-4xl space-y-6">
         <Card className="">
-          <CardHeader className="bg-gray-700">
+          <CardHeader className="">
             <CardTitle>Store Information</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-6 md:grid-cols-2 bg-gray-700">
+          <CardContent className="grid gap-6 md:grid-cols-2 ">
             <Input
               label="Store Name"
               name="storeName"
@@ -194,10 +194,10 @@ export default function AdminSettingsPage() {
         </Card>
 
         <Card>
-          <CardHeader className="bg-gray-700">
+          <CardHeader className="">
             <CardTitle>Homepage Content</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-6 bg-gray-700">
+          <CardContent className="grid gap-6 ">
             <Input
               label="Hero Title"
               name="heroTitle"
@@ -226,10 +226,10 @@ export default function AdminSettingsPage() {
         </Card>
 
         <Card>
-          <CardHeader className="bg-gray-700">
+          <CardHeader className="">
             <CardTitle>Store Preferences</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-6 md:grid-cols-2 bg-gray-700">
+          <CardContent className="grid gap-6 md:grid-cols-2 ">
             <Select
               label="Currency"
               name="currency"
@@ -256,10 +256,10 @@ export default function AdminSettingsPage() {
         </Card>
 
         <Card>
-          <CardHeader className="bg-gray-700">
+          <CardHeader className="">
             <CardTitle>Social Media Links</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-6 md:grid-cols-3 bg-gray-700">
+          <CardContent className="grid gap-6 md:grid-cols-3 ">
             <Input
               label="Facebook"
               name="facebook"

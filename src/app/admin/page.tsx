@@ -96,7 +96,9 @@ async function AdminDashboard() {
               to navigate to different sections.
             </p>
             <div className="rounded-lg border border-gray-200 p-4">
-              <h3 className="font-semibold text-gray-900 mb-3">Recent Orders</h3>
+              <h3 className="font-semibold text-gray-900 mb-3">
+                Recent Orders
+              </h3>
               {stats.recentOrders.length === 0 ? (
                 <p className="text-sm text-gray-600">
                   No orders yet. New cash-on-delivery orders will appear here.

@@ -57,7 +57,7 @@ export function AdminSidebar() {
     <>
       {/* Mobile Menu Button */}
       <button
-        className="fixed bottom-6 right-6 z-40 md:hidden bg-black text-white p-3 rounded-full"
+        className="fixed bottom-6 right-6 z-40 md:hidden text-white p-3 rounded-full"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <X /> : <Menu />}
@@ -66,12 +66,12 @@ export function AdminSidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 h-screen w-64 bg-gray-900 text-white transition-transform duration-300 z-30",
+          "fixed top-0 left-0 h-screen w-64 bg-gray-200 text-gray-950 transition-transform duration-300 z-30",
           isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
         )}
       >
         <div className="p-6 border-b border-gray-800">
-          <h1 className="text-2xl font-bold">Cosmatics Admin</h1>
+          <h1 className="text-2xl font-bold">Control Center</h1>
         </div>
 
         <nav className="p-4 space-y-2">
@@ -84,7 +84,7 @@ export function AdminSidebar() {
                 "flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors",
                 pathname === href
                   ? "bg-white text-gray-900 font-semibold"
-                  : "text-gray-400 hover:text-white hover:bg-gray-800",
+                  : "text-gray-800 hover:text-gray-900 hover:bg-white",
               )}
             >
               <Icon size={20} />
