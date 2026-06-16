@@ -145,6 +145,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                 alt={product.name}
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               {hasDiscount && (
                 <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-lg font-semibold">
@@ -163,6 +164,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                     alt={`Product ${index}`}
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
               ))}

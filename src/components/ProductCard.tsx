@@ -32,7 +32,10 @@ export function ProductCard({ product }: ProductCardProps) {
     product.discountPrice && product.discountPrice < product.price;
 
   return (
-    <div className="flex flex-col gap-3 group">
+    <Link
+      href={`/products/${product._id}`}
+      className="flex flex-col gap-3 group"
+    >
       {/* Image Container */}
       <div className="relative overflow-hidden rounded-lg bg-gray-100 aspect-square">
         <Image
@@ -55,11 +58,10 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* Content */}
-      <Link href={`/products/${product._id}`} className="flex-1">
-        <h3 className="font-semibold text-gray-900 group-hover:text-black line-clamp-2">
-          {product.name}
-        </h3>
-      </Link>
+
+      <h3 className="font-semibold text-gray-900 group-hover:text-black line-clamp-2 ">
+        {product.name}
+      </h3>
 
       {/* Rating */}
       <div className="flex items-center gap-2">
@@ -102,6 +104,6 @@ export function ProductCard({ product }: ProductCardProps) {
         <ShoppingCart size={16} className="mr-2" />
         {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
       </Button>
-    </div>
+    </Link>
   );
 }

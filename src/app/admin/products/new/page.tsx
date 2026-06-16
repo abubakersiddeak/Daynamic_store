@@ -103,7 +103,11 @@ export default function NewProductPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <Input label="Product Name *" name="name" required />
-            <Input label="Slug" name="slug" placeholder="radiant-beauty-foundation" />
+            <Input
+              label="Slug"
+              name="slug"
+              placeholder="radiant-beauty-foundation"
+            />
             <TextArea label="Description *" name="description" required />
             <Input
               label="Tags"
@@ -194,6 +198,7 @@ export default function NewProductPage() {
                           alt={`Product ${index}`}
                           fill
                           className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                       <button

@@ -207,13 +207,13 @@ export async function getProductById(id: string) {
   try {
     await connectDB();
 
-    const product = await Product.findById(id);
-
+    const product = await Product.findById(id).lean();
+    const serializedProduct = JSON.parse(JSON.stringify(product));
     if (!product) {
       return { success: false, error: "Product not found" };
     }
 
-    return { success: true, product: product.toObject() };
+    return { success: true, product: serializedProduct };
   } catch (error) {
     console.error("Get product error:", error);
     return {

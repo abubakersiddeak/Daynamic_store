@@ -11,9 +11,11 @@ import { usePathname } from "next/navigation";
 import { menuItems } from "@/constants/const";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const itemCount = useCartStore((state) => state.getItemCount());
+  const items = useCartStore((state) => state.items);
   const [storeSetting, setStoreSetting] = useState<StoreSettings | null>(null);
   const pathname = usePathname();
+
+  const itemCount = items.reduce((count, item) => count + item.quantity, 0);
   useEffect(() => {
     async function loadSettings() {
       const data = await getStoreSettings("storeName logo");

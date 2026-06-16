@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Product } from "@/types";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+
 import React from "react";
 type FeaturedProductsSectionProps = {
   featuredProducts: Product[];

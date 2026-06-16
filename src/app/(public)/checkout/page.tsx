@@ -264,6 +264,7 @@ export default function CheckoutPage() {
                           alt={item.name}
                           fill
                           className="object-cover rounded"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                       <div className="flex-1">

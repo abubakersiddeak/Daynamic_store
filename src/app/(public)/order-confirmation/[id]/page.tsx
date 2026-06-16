@@ -85,8 +85,8 @@ export default function OrderConfirmationPage({
             <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-4" />
             <h1 className="text-4xl font-bold mb-2">Order Confirmed!</h1>
             <p className="text-gray-600 text-lg">
-              Thank you for your order. We&apos;ll be in touch shortly with delivery
-              details.
+              Thank you for your order. We&apos;ll be in touch shortly with
+              delivery details.
             </p>
           </div>
 
@@ -154,12 +154,13 @@ export default function OrderConfirmationPage({
                     className="flex gap-4 pb-4 border-b last:border-0"
                   >
                     {item.image && (
-                      <div className="relative w-20 h-20 rounded bg-gray-200 flex-shrink-0">
+                      <div className="relative w-20 h-20 rounded bg-gray-200 shrink-0">
                         <Image
                           src={item.image}
                           alt={item.productName}
                           fill
                           className="object-cover rounded"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                     )}
