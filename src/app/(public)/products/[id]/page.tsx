@@ -26,6 +26,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const addItem = useCartStore((state) => state.addItem);
+  const [selectedImage, setSelectedImage] = useState("");
 
   useEffect(() => {
     const resolveParams = async () => {
@@ -49,11 +50,12 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
         if (productRes.success) {
           setProduct(productRes.product);
+          setSelectedImage(productRes.product.images[0]);
         }
 
         if (productsRes.success && productsRes.products) {
           setRelatedProducts(
-            productsRes.products.filter((p) => p._id !== productId),
+            productsRes.products.filter((p: Product) => p._id !== productId),
           );
         }
       } finally {
@@ -141,11 +143,12 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           <div className="flex flex-col gap-4">
             <div className="relative w-full aspect-square rounded-lg overflow-hidden bg-white">
               <Image
-                src={product.images[0]}
+                key={selectedImage}
+                src={selectedImage || product.images[0]}
                 alt={product.name}
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width:768px) 100vw, 50vw"
               />
               {hasDiscount && (
                 <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-lg font-semibold">
@@ -157,14 +160,17 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               {product.images.map((image, index) => (
                 <div
                   key={index}
-                  className="relative w-full aspect-square rounded-lg overflow-hidden bg-white border-2 border-gray-300 hover:border-black cursor-pointer"
+                  onClick={() => setSelectedImage(image)}
+                  className={`relative w-full aspect-square rounded-lg overflow-hidden cursor-pointer border-2 ${
+                    selectedImage === image ? "border-black" : "border-gray-300"
+                  }`}
                 >
                   <Image
                     src={image}
                     alt={`Product ${index}`}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="100px"
                   />
                 </div>
               ))}
