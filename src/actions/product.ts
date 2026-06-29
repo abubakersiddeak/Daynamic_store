@@ -90,17 +90,17 @@ export async function updateProduct(id: string, formData: FormData) {
     const product = await Product.findByIdAndUpdate(id, payload, {
       new: true,
       runValidators: true,
-    });
+    }).lean();
 
     if (!product) {
       return { success: false, error: "Product not found" };
     }
-
+    const productJson = JSON.parse(JSON.stringify(product));
     revalidatePath("/admin/products");
     revalidatePath("/products");
     revalidatePath(`/products/${id}`);
 
-    return { success: true, product: product.toObject() };
+    return { success: true, product: productJson };
   } catch (error) {
     console.error("Update product error:", error);
     return {
