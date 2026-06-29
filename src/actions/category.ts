@@ -24,8 +24,9 @@ export async function createCategory(formData: FormData) {
 
     revalidatePath("/admin/categories");
     revalidatePath("/categories");
+    const jesonCategory = JSON.parse(JSON.stringify(category));
 
-    return { success: true, category: category.toObject() };
+    return { success: true, category: jesonCategory };
   } catch (error) {
     console.error("Create category error:", error);
     return {
@@ -53,16 +54,16 @@ export async function updateCategory(id: string, formData: FormData) {
     const category = await Category.findByIdAndUpdate(id, validated, {
       new: true,
       runValidators: true,
-    });
+    }).lean();
 
     if (!category) {
       return { success: false, error: "Category not found" };
     }
-
+    const catgoryJson = JSON.parse(JSON.stringify(category));
     revalidatePath("/admin/categories");
     revalidatePath("/categories");
 
-    return { success: true, category: category.toObject() };
+    return { success: true, category: catgoryJson };
   } catch (error) {
     console.error("Update category error:", error);
     return {
@@ -121,13 +122,13 @@ export async function getCategoryBySlug(slug: string) {
   try {
     await connectDB();
 
-    const category = await Category.findOne({ slug });
+    const category = await Category.findOne({ slug }).lean();
 
     if (!category) {
       return { success: false, error: "Category not found" };
     }
-
-    return { success: true, category: category.toObject() };
+    const catgoryJson = JSON.parse(JSON.stringify(category));
+    return { success: true, category: catgoryJson };
   } catch (error) {
     console.error("Get category error:", error);
     return {

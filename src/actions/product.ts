@@ -49,8 +49,8 @@ export async function createProduct(formData: FormData) {
 
     revalidatePath("/admin/products");
     revalidatePath("/products");
-
-    return { success: true, product: product.toObject() };
+    const jsonProduct = JSON.parse(JSON.stringify(product));
+    return { success: true, product: jsonProduct };
   } catch (error) {
     console.error("Create product error:", error);
     return {
@@ -208,11 +208,11 @@ export async function getProductById(id: string) {
     await connectDB();
 
     const product = await Product.findById(id).lean();
-    const serializedProduct = JSON.parse(JSON.stringify(product));
+
     if (!product) {
       return { success: false, error: "Product not found" };
     }
-
+    const serializedProduct = JSON.parse(JSON.stringify(product));
     return { success: true, product: serializedProduct };
   } catch (error) {
     console.error("Get product error:", error);

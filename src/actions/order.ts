@@ -48,10 +48,7 @@ async function syncCustomerFromOrder(orderData: {
 
   if (
     !existingCustomer.addresses.some(
-      (entry: {
-        addressLine1?: string;
-        phone?: string;
-      }) =>
+      (entry: { addressLine1?: string; phone?: string }) =>
         entry.addressLine1 === orderData.address &&
         entry.phone === orderData.phone,
     )
@@ -123,12 +120,14 @@ export async function getOrders(page: number = 1, limit: number = 10) {
     const orders = await Order.find()
       .skip(skip)
       .limit(limit)
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
+    const ordersJson = JSON.parse(JSON.stringify(orders));
     const total = await Order.countDocuments();
 
     return {
       success: true,
-      orders: orders.map((o) => o.toObject()),
+      orders: ordersJson,
       pagination: {
         page,
         limit,
@@ -154,8 +153,8 @@ export async function getOrderById(id: string) {
     if (!order) {
       return { success: false, error: "Order not found" };
     }
-
-    return { success: true, order: order.toObject() };
+    const orderJson = JSON.parse(JSON.stringify(order));
+    return { success: true, order: orderJson };
   } catch (error) {
     console.error("Get order error:", error);
     return {
@@ -189,10 +188,10 @@ export async function updateOrderStatus(id: string, status: string) {
     if (!order) {
       return { success: false, error: "Order not found" };
     }
-
+    const orderJson = JSON.parse(JSON.stringify(order));
     revalidatePath("/admin/orders");
 
-    return { success: true, order: order.toObject() };
+    return { success: true, order: orderJson };
   } catch (error) {
     console.error("Update order status error:", error);
     return {
@@ -232,7 +231,7 @@ export async function getOrderStats() {
       .sort({ createdAt: -1 })
       .limit(5)
       .lean();
-
+    const recentOrderJson = JSON.parse(JSON.stringify(recentOrders));
     return {
       success: true,
       stats: {
@@ -240,7 +239,7 @@ export async function getOrderStats() {
         totalCustomers,
         totalRevenue: totalRevenue[0]?.total || 0,
         byStatus: ordersByStatus,
-        recentOrders,
+        recentOrders: recentOrderJson,
       },
     };
   } catch (error) {

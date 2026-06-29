@@ -2,19 +2,28 @@ export function cn(...classes: (string | undefined | null | false)[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
+// export function formatCurrency(
+//   amount: number,
+//   currency: string = "PKR",
+// ): string {
+//   return new Intl.NumberFormat("en-PK", {
+//     style: "currency",
+//     currency: currency,
+//     minimumFractionDigits: 0,
+//   }).format(amount);
+// }
 export function formatCurrency(
   amount: number,
-  currency: string = "PKR",
+  currency: string = "BDT",
 ): string {
-  return new Intl.NumberFormat("en-PK", {
+  return new Intl.NumberFormat("en-BD", {
     style: "currency",
     currency: currency,
     minimumFractionDigits: 0,
   }).format(amount);
 }
-
 export function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat("en-PK", {
+  return new Intl.DateTimeFormat("en-BD", {
     year: "numeric",
     month: "short",
     day: "numeric",

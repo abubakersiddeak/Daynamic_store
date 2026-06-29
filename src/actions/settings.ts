@@ -76,8 +76,8 @@ export async function updateStoreSettings(formData: FormData) {
     revalidatePath("/");
     revalidatePath("/contact");
     revalidatePath("/admin/settings");
-
-    return { success: true, settings: settings.toObject() };
+    const jsonSetting = JSON.parse(JSON.stringify(settings));
+    return { success: true, settings: jsonSetting };
   } catch (error) {
     console.error("Update store settings error:", error);
     return {

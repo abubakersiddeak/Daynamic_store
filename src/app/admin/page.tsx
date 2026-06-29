@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { ShoppingCart, Package, DollarSign, Users } from "lucide-react";
 import { formatCurrency } from "@/utils/helpers";
 
+import { Order } from "@/types";
+
 export const dynamic = "force-dynamic";
 
 interface StatusSummary {
@@ -92,8 +94,8 @@ async function AdminDashboard() {
         <CardContent>
           <div className="grid gap-6 lg:grid-cols-2">
             <p className="text-gray-600">
-              Manage your cosmetics store from this dashboard. Use the sidebar
-              to navigate to different sections.
+              Manage your store from this dashboard. Use the sidebar to navigate
+              to different sections.
             </p>
             <div className="rounded-lg border border-gray-200 p-4">
               <h3 className="font-semibold text-gray-900 mb-3">
@@ -105,7 +107,7 @@ async function AdminDashboard() {
                 </p>
               ) : (
                 <div className="space-y-3">
-                  {stats.recentOrders.map((order) => (
+                  {stats.recentOrders.map((order: Order) => (
                     <div
                       key={String(order._id)}
                       className="flex items-center justify-between text-sm"

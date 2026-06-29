@@ -6,6 +6,7 @@ import {
   createCategory,
   deleteCategory,
 } from "@/actions/category";
+import { uploadImageToImgBB } from "@/lib/imgbb";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -17,7 +18,9 @@ export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAddingNew, setIsAddingNew] = useState(false);
+  const [submitting, setSubmitting] = useState(false); // UI state to block double submissions
   const [newCategory, setNewCategory] = useState({ name: "", slug: "" });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   async function loadCategories() {
     setLoading(true);
@@ -42,26 +45,49 @@ export default function AdminCategoriesPage() {
   async function handleAddCategory(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!newCategory.name || !newCategory.slug) {
-      toast.error("Please fill all fields");
+      toast.error("Please fill all required fields");
       return;
     }
 
+    setSubmitting(true);
+    const toastId = toast.loading("Creating category...");
+
     try {
+      let imageUrl = "";
+
+      // 1. If an image file was selected from the device, upload it first
+      if (selectedFile) {
+        imageUrl = await uploadImageToImgBB(selectedFile);
+      }
+
+      // 2. Prepare Form Data for the Server Action
       const formData = new FormData();
       formData.append("name", newCategory.name);
       formData.append("slug", newCategory.slug);
+      formData.append("image", imageUrl); // Attaches the live hosted link
 
+      // 3. Fire Server Action
       const result = await createCategory(formData);
       if (result.success) {
-        toast.success("Category created");
+        toast.success("Category created successfully!", { id: toastId });
         loadCategories();
+
+        // Reset state
         setNewCategory({ name: "", slug: "" });
+        setSelectedFile(null);
         setIsAddingNew(false);
       } else {
-        toast.error(result.error || "Failed to create category");
+        toast.error(result.error || "Failed to create category", {
+          id: toastId,
+        });
       }
-    } catch {
-      toast.error("Failed to create category");
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while uploading or saving.", {
+        id: toastId,
+      });
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -105,6 +131,7 @@ export default function AdminCategoriesPage() {
                   setNewCategory({ ...newCategory, name: e.target.value })
                 }
                 placeholder="E.g., Lipsticks"
+                disabled={submitting}
               />
               <Input
                 label="Slug"
@@ -113,15 +140,39 @@ export default function AdminCategoriesPage() {
                   setNewCategory({ ...newCategory, slug: e.target.value })
                 }
                 placeholder="E.g., lipsticks"
+                disabled={submitting}
               />
-              <div className="flex gap-2">
-                <Button type="submit">Create</Button>
+
+              {/* Image Input field added here */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-sm font-medium text-gray-700">
+                  Category Image
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setSelectedFile(e.target.files[0]);
+                    }
+                  }}
+                  disabled={submitting}
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:opacity-90 cursor-pointer disabled:opacity-50"
+                />
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <Button type="submit" disabled={submitting}>
+                  {submitting ? "Processing..." : "Create"}
+                </Button>
                 <Button
                   type="button"
                   variant="outline"
+                  disabled={submitting}
                   onClick={() => {
                     setIsAddingNew(false);
                     setNewCategory({ name: "", slug: "" });
+                    setSelectedFile(null);
                   }}
                 >
                   Cancel
@@ -132,6 +183,7 @@ export default function AdminCategoriesPage() {
         </Card>
       )}
 
+      {/* Categories table stays exactly the same as you had it */}
       <Card>
         <CardHeader>
           <CardTitle>Categories List</CardTitle>
@@ -146,6 +198,7 @@ export default function AdminCategoriesPage() {
               <table className="w-full table-auto text-sm">
                 <thead className="border-b">
                   <tr>
+                    <th className="text-left py-3 px-4">Image</th>
                     <th className="text-left py-3 px-4">Name</th>
                     <th className="text-left py-3 px-4">Slug</th>
                     <th className="text-left py-3 px-4">Actions</th>
@@ -157,6 +210,19 @@ export default function AdminCategoriesPage() {
                       key={category._id}
                       className="border-b hover:bg-gray-50"
                     >
+                      <td className="py-3 px-4">
+                        {category.image ? (
+                          <img
+                            src={category.image}
+                            alt={category.name}
+                            className="w-10 h-10 object-cover rounded-md border"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center text-xs text-gray-400">
+                            No Img
+                          </div>
+                        )}
+                      </td>
                       <td className="py-3 px-4 font-semibold">
                         {category.name}
                       </td>

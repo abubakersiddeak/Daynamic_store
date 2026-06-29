@@ -102,7 +102,7 @@ export function ProductCard({ product }: ProductCardProps) {
         className="w-full"
       >
         <ShoppingCart size={16} className="mr-2" />
-        {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+        {product.stock === 0 ? "Out of Stock " : "Add to Cart"}
       </Button>
     </Link>
   );
