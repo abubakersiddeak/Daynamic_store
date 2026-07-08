@@ -1,42 +1,24 @@
-import axios from "axios";
-
 interface UploadResponse {
-  data: {
-    url: string;
-    display_url: string;
-    delete_url: string;
-  };
-  success: boolean;
-  status: number;
+  url?: string;
+  error?: string;
 }
 
 export async function uploadImageToImgBB(file: File): Promise<string> {
-  const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
-
-  if (!apiKey) {
-    throw new Error("NEXT_PUBLIC_IMGBB_API_KEY is not defined");
-  }
-
   const formData = new FormData();
   formData.append("image", file);
-  formData.append("key", apiKey);
 
   try {
-    const response = await axios.post<UploadResponse>(
-      "https://api.imgbb.com/1/upload",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      },
-    );
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const payload = (await response.json()) as UploadResponse;
 
-    if (response.data.success) {
-      return response.data.data.url;
-    } else {
-      throw new Error("Image upload failed");
+    if (!response.ok || !payload.url) {
+      throw new Error(payload.error || "Image upload failed");
     }
+
+    return payload.url;
   } catch (error) {
     console.error("ImgBB upload error:", error);
     throw new Error("Failed to upload image");

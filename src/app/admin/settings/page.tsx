@@ -92,7 +92,6 @@ export default function AdminSettingsPage() {
 
     try {
       const formData = new FormData(e.currentTarget);
-      alert(formData);
       const result = await updateStoreSettings(formData);
 
       if (result.success) {

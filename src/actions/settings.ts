@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/admin-auth";
 import { connectDB } from "@/lib/db";
 import { StoreSettings } from "@/models/StoreSettings";
 import { storeSettingsSchema } from "@/validations";
@@ -42,6 +43,7 @@ export async function getStoreSettings(fields: string = "") {
 
 export async function updateStoreSettings(formData: FormData) {
   try {
+    await requireAdmin();
     await connectDB();
 
     const data = {

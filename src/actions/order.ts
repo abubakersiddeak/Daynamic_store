@@ -1,6 +1,7 @@
 "use server";
 
 import { connectDB } from "@/lib/db";
+import { requireAdmin } from "@/lib/admin-auth";
 import { Customer } from "@/models/Customer";
 import { Order } from "@/models/Order";
 import { orderSchema } from "@/validations";
@@ -114,6 +115,7 @@ export async function createOrder(formData: FormData) {
 
 export async function getOrders(page: number = 1, limit: number = 10) {
   try {
+    await requireAdmin();
     await connectDB();
 
     const skip = (page - 1) * limit;
@@ -166,6 +168,7 @@ export async function getOrderById(id: string) {
 
 export async function updateOrderStatus(id: string, status: string) {
   try {
+    await requireAdmin();
     await connectDB();
 
     const validStatuses = [
@@ -203,6 +206,7 @@ export async function updateOrderStatus(id: string, status: string) {
 
 export async function getOrderStats() {
   try {
+    await requireAdmin();
     await connectDB();
 
     const [totalOrders, totalRevenue, ordersByStatus, totalCustomers] =

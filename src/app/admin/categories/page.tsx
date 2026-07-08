@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import {
   getCategories,
   createCategory,
@@ -212,10 +213,12 @@ export default function AdminCategoriesPage() {
                     >
                       <td className="py-3 px-4">
                         {category.image ? (
-                          <img
+                          <Image
                             src={category.image}
                             alt={category.name}
-                            className="w-10 h-10 object-cover rounded-md border"
+                            width={40}
+                            height={40}
+                            className="h-10 w-10 rounded-md border object-cover"
                           />
                         ) : (
                           <div className="w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center text-xs text-gray-400">

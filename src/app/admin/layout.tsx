@@ -1,8 +1,8 @@
 "use client";
-import { getStoreSettings } from "@/actions/settings";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { logout } from "@/actions/auth";
 import {
   Menu,
   X,
@@ -95,10 +95,15 @@ export function AdminSidebar() {
 
         {/* Logout */}
         <div className="absolute bottom-4 left-4 right-4">
-          <button className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
-            <LogOut size={20} />
-            <span>Logout</span>
-          </button>
+          <form action={logout}>
+            <button
+              type="submit"
+              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 hover:text-white hover:bg-gray-800 transition-colors"
+            >
+              <LogOut size={20} />
+              <span>Logout</span>
+            </button>
+          </form>
         </div>
       </aside>
 

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_DB_NAME = process.env.MONGODB_DB_NAME || "ecomarsStor";
 
 if (!MONGODB_URI) {
   throw new Error("MONGODB_URI is not defined");
@@ -29,7 +30,7 @@ export async function connectDB() {
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(MONGODB_URI!, {
-        dbName: "ecomarsStor",
+        dbName: MONGODB_DB_NAME,
         bufferCommands: false,
       })
       .then(() => mongoose);

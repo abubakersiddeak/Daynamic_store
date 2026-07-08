@@ -20,7 +20,7 @@ const storeSettingsSchema = new Schema<IStoreSettingsDocument>(
     postalCode: String,
     currency: {
       type: String,
-      default: "BTD",
+      default: "BDT",
     },
     shippingCharge: {
       type: Number,

@@ -1,10 +1,12 @@
 "use server";
 
 import { connectDB } from "@/lib/db";
+import { requireAdmin } from "@/lib/admin-auth";
 import { Customer } from "@/models/Customer";
 
 export async function getCustomers() {
   try {
+    await requireAdmin();
     await connectDB();
 
     const customers = await Customer.find()

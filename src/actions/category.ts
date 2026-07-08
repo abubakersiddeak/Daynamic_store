@@ -1,14 +1,15 @@
 "use server";
 
 import { connectDB } from "@/lib/db";
+import { requireAdmin } from "@/lib/admin-auth";
 import { Category } from "@/models/Category";
 import { categorySchema } from "@/validations";
 import { revalidatePath } from "next/cache";
 
 export async function createCategory(formData: FormData) {
   try {
+    await requireAdmin();
     await connectDB();
-    console.log(formData);
     const data = {
       name: formData.get("name"),
       slug: formData.get("slug"),
@@ -39,6 +40,7 @@ export async function createCategory(formData: FormData) {
 
 export async function updateCategory(id: string, formData: FormData) {
   try {
+    await requireAdmin();
     await connectDB();
 
     const data = {
@@ -76,6 +78,7 @@ export async function updateCategory(id: string, formData: FormData) {
 
 export async function deleteCategory(id: string) {
   try {
+    await requireAdmin();
     await connectDB();
 
     const category = await Category.findByIdAndDelete(id);

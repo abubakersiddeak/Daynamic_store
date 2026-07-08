@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 const optionalText = z.preprocess(
-  (value) => (value === "" ? undefined : value),
+  (value) => (value === "" || value === null || value === undefined ? undefined : value),
   z.string().optional(),
 );
 
 const optionalEmail = z.preprocess(
-  (value) => (value === "" ? undefined : value),
+  (value) => (value === "" || value === null || value === undefined ? undefined : value),
   z.string().email("Invalid email").optional(),
 );
 
@@ -79,7 +79,7 @@ export const storeSettingsSchema = z.object({
   currency: z.string().default("PKR"),
   shippingCharge: z.coerce.number().default(0),
   bannerImage: z.preprocess(
-    (value) => (value === "" ? undefined : value),
+    (value) => (value === "" || value === null || value === undefined ? undefined : value),
     z.string().url().optional(),
   ),
   heroTitle: optionalText,

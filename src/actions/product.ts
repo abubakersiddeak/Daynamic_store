@@ -1,6 +1,7 @@
 "use server";
 
 import { connectDB } from "@/lib/db";
+import { requireAdmin } from "@/lib/admin-auth";
 import { Product } from "@/models/Product";
 import { productCreateSchema, productUpdateSchema } from "@/validations";
 import { revalidatePath } from "next/cache";
@@ -23,6 +24,7 @@ function createSlug(name: string) {
 
 export async function createProduct(formData: FormData) {
   try {
+    await requireAdmin();
     await connectDB();
 
     const data = {
@@ -63,6 +65,7 @@ export async function createProduct(formData: FormData) {
 
 export async function updateProduct(id: string, formData: FormData) {
   try {
+    await requireAdmin();
     await connectDB();
 
     const data = {
@@ -113,6 +116,7 @@ export async function updateProduct(id: string, formData: FormData) {
 
 export async function deleteProduct(id: string) {
   try {
+    await requireAdmin();
     await connectDB();
 
     const product = await Product.findByIdAndDelete(id);
