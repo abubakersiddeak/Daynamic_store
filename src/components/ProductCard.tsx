@@ -64,7 +64,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </h3>
 
       {/* Rating */}
-      <div className="flex items-center gap-2">
+      {/* <div className="flex items-center gap-2">
         <div className="flex items-center gap-1">
           {[...Array(5)].map((_, i) => (
             <Star
@@ -79,7 +79,7 @@ export function ProductCard({ product }: ProductCardProps) {
           ))}
         </div>
         <span className="text-xs text-gray-600">({product.reviews})</span>
-      </div>
+      </div> */}
 
       {/* Price */}
       <div className="flex items-center gap-2">

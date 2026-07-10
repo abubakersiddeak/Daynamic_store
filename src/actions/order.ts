@@ -98,11 +98,11 @@ export async function createOrder(formData: FormData) {
       total: validated.total,
       createdAt: order.createdAt,
     });
-
+    const orderJson = JSON.parse(JSON.stringify(order));
     revalidatePath("/admin/orders");
     revalidatePath("/admin/customers");
 
-    return { success: true, order: order.toObject() };
+    return { success: true, order: orderJson };
   } catch (error) {
     console.error("Create order error:", error);
     return {

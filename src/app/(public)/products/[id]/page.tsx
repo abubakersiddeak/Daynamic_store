@@ -184,7 +184,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             </h1>
 
             {/* Rating */}
-            <div className="flex items-center gap-4 mb-6">
+            {/* <div className="flex items-center gap-4 mb-6">
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (
                   <Star
@@ -199,7 +199,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                 ))}
               </div>
               <span className="text-gray-600">({product.reviews} reviews)</span>
-            </div>
+            </div> */}
 
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-6">
