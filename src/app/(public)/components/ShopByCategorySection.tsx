@@ -9,7 +9,6 @@ interface ShopByCategorySectionProps {
 export default function ShopByCategorySection({
   categories,
 }: ShopByCategorySectionProps) {
-  console.log(typeof categories);
   return (
     <section className="bg-white py-20">
       <div className="container mx-auto px-4">

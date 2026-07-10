@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import {
   Facebook,
@@ -9,9 +7,23 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
+import { getStoreSettings } from "@/actions/settings";
 
-export function Footer() {
+export async function Footer() {
   const currentYear = new Date().getFullYear();
+
+  // Fetch settings directly from the database server-side
+  const response = await getStoreSettings();
+  const settings = response.success ? response.settings : null;
+
+  // Fallback defaults if database fails or is empty
+  const storeName = settings?.storeName || "Cosmatics";
+  const storeDescription =
+    settings?.storeDescription ||
+    "Premium cosmetics and beauty products for everyone.";
+  const phone = settings?.phone || "+92 (300) 123-4567";
+  const email = settings?.email || "hello@cosmatics.com";
+  const address = `${settings?.address || "Karachi"}, ${settings?.city || "Pakistan"}`;
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -19,10 +31,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Cosmatics</h3>
-            <p className="text-gray-400 text-sm">
-              Premium cosmetics and beauty products for everyone.
-            </p>
+            <h3 className="text-xl font-bold mb-4">{storeName}</h3>
+            <p className="text-gray-400 text-sm">{storeDescription}</p>
           </div>
 
           {/* Quick Links */}
@@ -104,18 +114,24 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Get In Touch</h4>
             <ul className="space-y-3 text-gray-400 text-sm">
-              <li className="flex items-center gap-2">
-                <Phone size={16} />
-                +92 (300) 123-4567
-              </li>
-              <li className="flex items-center gap-2">
-                <Mail size={16} />
-                hello@cosmatics.com
-              </li>
-              <li className="flex items-center gap-2">
-                <MapPin size={16} />
-                Karachi, Pakistan
-              </li>
+              {settings?.phone && (
+                <li className="flex items-center gap-2">
+                  <Phone size={16} />
+                  {phone}
+                </li>
+              )}
+              {settings?.email && (
+                <li className="flex items-center gap-2">
+                  <Mail size={16} />
+                  {email}
+                </li>
+              )}
+              {(settings?.address || settings?.city) && (
+                <li className="flex items-center gap-2">
+                  <MapPin size={16} />
+                  {address}
+                </li>
+              )}
             </ul>
           </div>
         </div>
@@ -124,29 +140,41 @@ export function Footer() {
         <div className="border-t border-gray-800 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
-              &copy; {currentYear} Cosmatics Store. All rights reserved.
+              &copy; {currentYear} {storeName}. All rights reserved.
             </p>
 
             {/* Social Links */}
             <div className="flex items-center space-x-4">
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors p-2"
-              >
-                <Facebook size={20} />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors p-2"
-              >
-                <Instagram size={20} />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors p-2"
-              >
-                <Twitter size={20} />
-              </a>
+              {settings?.socialLinks?.facebook && (
+                <a
+                  href={settings.socialLinks.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors p-2"
+                >
+                  <Facebook size={20} />
+                </a>
+              )}
+              {settings?.socialLinks?.instagram && (
+                <a
+                  href={settings.socialLinks.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors p-2"
+                >
+                  <Instagram size={20} />
+                </a>
+              )}
+              {settings?.socialLinks?.twitter && (
+                <a
+                  href={settings.socialLinks.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors p-2"
+                >
+                  <Twitter size={20} />
+                </a>
+              )}
             </div>
           </div>
         </div>

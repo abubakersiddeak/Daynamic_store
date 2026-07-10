@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 export async function createCategory(formData: FormData) {
   try {
     await connectDB();
-    console.log(formData);
+
     const data = {
       name: formData.get("name"),
       slug: formData.get("slug"),

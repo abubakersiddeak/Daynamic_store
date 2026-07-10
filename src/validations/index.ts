@@ -93,7 +93,30 @@ export const storeSettingsSchema = z.object({
     })
     .optional(),
 });
+export const userSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").trim(),
+  email: z.string().email("Invalid email address").toLowerCase().trim(),
+  phone: z.string().optional().or(z.literal("")),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  role: z.enum(["USER", "ADMIN"]).optional(),
+  isBlocked: z.boolean().optional(),
+});
 
+// For user updates (password optional)
+export const userUpdateSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").trim(),
+  email: z.string().email("Invalid email address").toLowerCase().trim(),
+  phone: z.string().optional().or(z.literal("")),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .optional(),
+  role: z.enum(["USER", "ADMIN"]).optional(),
+  isBlocked: z.boolean().optional(),
+  emailVerified: z.boolean().optional(),
+  provider: z.string().optional(),
+  logo: z.string().optional(),
+});
 export type ProductFormData = z.infer<typeof productCreateSchema>;
 export type CategoryFormData = z.infer<typeof categorySchema>;
 export type OrderFormData = z.infer<typeof orderSchema>;
