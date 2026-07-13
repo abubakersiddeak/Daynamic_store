@@ -55,10 +55,10 @@ export default function ProductsPage() {
   }, [page, searchQuery, selectedCategory, sortBy]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#fdf6f3]">
       <div className="container mx-auto px-4 py-6">
-        <div className="flex items-center gap-2 text-gray-600">
-          <Link href="/" className="hover:text-black">
+        <div className="inline-flex items-center gap-2 rounded-full border border-rose-100 bg-rose-50/80 px-4 py-2 text-sm font-medium text-rose-700 shadow-sm">
+          <Link href="/" className="hover:text-rose-900">
             Home
           </Link>
           <ChevronRight size={16} />
@@ -67,24 +67,34 @@ export default function ProductsPage() {
       </div>
 
       <div className="container mx-auto px-4 pb-20">
-        <div className="mb-8 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-10 grid gap-6 lg:grid-cols-[1.5fr_0.7fr] lg:items-end">
           <div>
-            <h1 className="text-4xl font-bold">All Products</h1>
-            <p className="mt-2 text-gray-600">
-              Browse premium skincare, makeup, and beauty essentials.
+            <p className="mb-4 inline-flex rounded-full bg-rose-100 px-3 py-1 text-sm font-semibold text-rose-700">
+              Curated beauty collection
+            </p>
+            <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
+              Discover your next favorite product
+            </h1>
+            <p className="mt-4 max-w-2xl text-gray-600">
+              Browse premium skincare, makeup, and beauty essentials with quick
+              filters and easy sorting.
             </p>
           </div>
-          <p className="text-sm text-gray-500">
-            {loading ? "Updating catalog..." : `${products.length} items on this page`}
-          </p>
-        </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-          <div className="lg:col-span-1">
-            <div className="sticky top-24 rounded-lg border border-gray-200 bg-white p-6">
-              <h3 className="mb-4 text-lg font-semibold">Filters</h3>
+          <div className="rounded-[28px] border border-gray-200 bg-white p-6 shadow-sm shadow-stone-200/60">
+            <h3 className="mb-4 text-lg font-semibold text-stone-900">
+              Shop with filters
+            </h3>
+            <p className="mb-6 text-sm text-gray-500">
+              Narrow your search by category, sort by price, or clear filters
+              anytime.
+            </p>
 
-              <div className="mb-4">
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Search products
+                </label>
                 <Input
                   placeholder="Search products..."
                   value={searchQuery}
@@ -92,12 +102,15 @@ export default function ProductsPage() {
                     setPage(1);
                     setSearchQuery(e.target.value);
                   }}
+                  className="bg-gray-50"
                 />
               </div>
 
-              <div className="mb-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Category
+                </label>
                 <Select
-                  label="Category"
                   value={selectedCategory}
                   onChange={(e) => {
                     setPage(1);
@@ -113,9 +126,11 @@ export default function ProductsPage() {
                 />
               </div>
 
-              <div className="mb-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Sort by
+                </label>
                 <Select
-                  label="Sort By"
                   value={sortBy}
                   onChange={(e) => {
                     setPage(1);
@@ -144,14 +159,33 @@ export default function ProductsPage() {
               </Button>
             </div>
           </div>
+        </div>
 
-          <div className="lg:col-span-3">
+        <div className="rounded-[32px] bg-white p-6 shadow-sm shadow-stone-200/40">
+          <div className="flex flex-col gap-4 border-b border-gray-200 pb-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-3xl font-bold text-stone-900">
+                All Products
+              </h2>
+              <p className="mt-1 text-gray-500">
+                Explore {products.length}{" "}
+                {products.length === 1 ? "product" : "products"} on this page.
+              </p>
+            </div>
+            <p className="text-sm text-gray-500">
+              {loading
+                ? "Updating catalog..."
+                : `${products.length} product${products.length === 1 ? "" : "s"} shown`}
+            </p>
+          </div>
+
+          <div className="mt-8">
             {loading ? (
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {[...Array(6)].map((_, i) => (
                   <div
                     key={i}
-                    className="aspect-square animate-pulse rounded-lg bg-gray-200"
+                    className="aspect-square animate-pulse rounded-[28px] bg-gray-200"
                   />
                 ))}
               </div>

@@ -154,11 +154,11 @@ export default function CartPage() {
 
   // ── Main Render ────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#fdf6f3]">
       {/* ── Breadcrumb ── */}
       <div className="bg-white border-b sticky top-0 z-10 shadow-sm">
         <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <Link href="/" className="hover:text-black transition-colors">
                 Home
@@ -166,12 +166,9 @@ export default function CartPage() {
               <ChevronRight size={14} />
               <span className="text-gray-900 font-medium">Cart</span>
             </div>
-            {/* Item count badge */}
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="inline-flex items-center gap-2 rounded-full bg-rose-50 px-3 py-1 text-sm font-medium text-rose-700">
               <ShoppingCart size={16} />
-              <span>
-                {totalItems} {totalItems === 1 ? "item" : "items"}
-              </span>
+              {totalItems} {totalItems === 1 ? "item" : "items"}
             </div>
           </div>
         </div>
@@ -202,14 +199,13 @@ export default function CartPage() {
             </div>
 
             {/* Items List */}
-            <div className="space-y-3 sm:space-y-4">
+            <div className="space-y-4 sm:space-y-5">
               {items.map((item) => (
                 <div
                   key={item.productId}
                   className={`
-                    bg-white rounded-xl shadow-sm border border-gray-100
-                    transition-all duration-200
-                    ${removingId === item.productId ? "opacity-50 scale-95" : "opacity-100 scale-100"}
+                    rounded-[28px] border border-gray-200 bg-white shadow-sm transition-all duration-200
+                    ${removingId === item.productId ? "opacity-60 scale-95" : "opacity-100 scale-100"}
                   `}
                 >
                   <div className="p-4 sm:p-6">
@@ -340,7 +336,7 @@ export default function CartPage() {
           ════════════════════════════════════════ */}
           <div className="order-1 lg:order-2 lg:col-span-1">
             <div className="lg:sticky lg:top-20">
-              <Card className="shadow-sm border-gray-100">
+              <Card className="rounded-[28px] border border-gray-200 shadow-sm">
                 <CardHeader className="pb-4">
                   <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
                     <Package size={20} className="text-gray-600" />
@@ -348,7 +344,7 @@ export default function CartPage() {
                   </CardTitle>
                 </CardHeader>
 
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-5">
                   {/* Line Items */}
                   <div className="space-y-3">
                     {/* Subtotal */}

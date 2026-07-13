@@ -6,35 +6,26 @@ if (!MONGODB_URI) {
   throw new Error("MONGODB_URI is not defined");
 }
 
-interface CachedMongoose {
-  conn: typeof mongoose | null;
-  promise: Promise<typeof mongoose> | null;
-}
-
-declare global {
-  var mongooseCache: CachedMongoose;
-}
-
-const cached = global.mongooseCache || { conn: null, promise: null };
-
-if (!global.mongooseCache) {
-  global.mongooseCache = cached;
-}
+let connectPromise: Promise<typeof mongoose> | null = null;
 
 export async function connectDB() {
-  if (cached.conn) {
-    return cached.conn;
+  if (mongoose.connection.readyState === 1) {
+    return mongoose;
   }
 
-  if (!cached.promise) {
-    cached.promise = mongoose
-      .connect(MONGODB_URI!, {
-        dbName: "ecomarsStor",
-        bufferCommands: false,
-      })
-      .then(() => mongoose);
+  if (connectPromise) {
+    return connectPromise;
   }
 
-  cached.conn = await cached.promise;
-  return cached.conn;
+  connectPromise = mongoose
+    .connect(MONGODB_URI!, {
+      dbName: "ecomarsStor",
+      bufferCommands: false,
+    })
+    .then(() => {
+      connectPromise = null;
+      return mongoose;
+    });
+
+  return connectPromise;
 }

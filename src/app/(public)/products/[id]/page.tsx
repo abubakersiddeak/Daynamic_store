@@ -14,9 +14,7 @@ import { ChevronRight, Star, ShoppingCart } from "lucide-react";
 import toast from "react-hot-toast";
 
 interface ProductDetailPageProps {
-  params: Promise<{
-    id: string;
-  }>;
+  params: Promise<{ id: string }>;
 }
 
 export default function ProductDetailPage({ params }: ProductDetailPageProps) {
@@ -120,192 +118,193 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#fdf6f3]">
       {/* Breadcrumb */}
       <div className="container mx-auto px-4 py-6">
-        <div className="flex items-center gap-2 text-gray-600">
-          <Link href="/" className="hover:text-black">
+        <div className="inline-flex flex-wrap items-center gap-2 rounded-full bg-rose-50 px-4 py-2 text-sm font-medium text-rose-700 shadow-sm">
+          <Link href="/" className="hover:text-rose-900">
             Home
           </Link>
           <ChevronRight size={16} />
-          <Link href="/products" className="hover:text-black">
+          <Link href="/products" className="hover:text-rose-900">
             Products
           </Link>
           <ChevronRight size={16} />
-          <span>{product.name}</span>
+          <span className="text-stone-900">{product.name}</span>
         </div>
       </div>
 
       {/* Product Details */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
-          {/* Image Gallery */}
-          <div className="flex flex-col gap-4">
-            <div className="relative w-full aspect-square rounded-lg overflow-hidden bg-white">
-              <Image
-                key={selectedImage}
-                src={selectedImage || product.images[0]}
-                alt={product.name}
-                fill
-                className="object-cover"
-                sizes="(max-width:768px) 100vw, 50vw"
-              />
-              {hasDiscount && (
-                <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-lg font-semibold">
-                  -{discountPercentage}%
-                </div>
-              )}
-            </div>
-            <div className="grid grid-cols-4 gap-2">
-              {product.images.map((image, index) => (
-                <div
-                  key={index}
-                  onClick={() => setSelectedImage(image)}
-                  className={`relative w-full aspect-square rounded-lg overflow-hidden cursor-pointer border-2 ${
-                    selectedImage === image ? "border-black" : "border-gray-300"
-                  }`}
-                >
-                  <Image
-                    src={image}
-                    alt={`Product ${index}`}
-                    fill
-                    className="object-cover"
-                    sizes="100px"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Product Info */}
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">
-              {product.name}
-            </h1>
-
-            {/* Rating */}
-            {/* <div className="flex items-center gap-4 mb-6">
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={18}
-                    className={
-                      i < Math.floor(product.rating)
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-300"
-                    }
-                  />
+        <div className="rounded-[32px] border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 mb-20">
+            {/* Image Gallery */}
+            <div className="flex flex-col gap-4">
+              <div className="relative w-full aspect-[4/3] overflow-hidden rounded-[28px] bg-stone-100 shadow-inner shadow-stone-200">
+                <Image
+                  key={selectedImage}
+                  src={selectedImage || product.images[0]}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width:768px) 100vw, 50vw"
+                />
+                {hasDiscount && (
+                  <div className="absolute top-4 left-4 inline-flex rounded-full bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-rose-900/20">
+                    -{discountPercentage}%
+                  </div>
+                )}
+              </div>
+              <div className="grid grid-cols-4 gap-3">
+                {product.images.map((image, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setSelectedImage(image)}
+                    className={`relative overflow-hidden rounded-2xl border transition duration-200 ${
+                      selectedImage === image
+                        ? "border-rose-500 shadow-lg shadow-rose-200/60"
+                        : "border-gray-200 hover:border-rose-300"
+                    }`}
+                  >
+                    <div className="aspect-square relative">
+                      <Image
+                        src={image}
+                        alt={`Product ${index}`}
+                        fill
+                        className="object-cover"
+                        sizes="100px"
+                      />
+                    </div>
+                  </button>
                 ))}
               </div>
-              <span className="text-gray-600">({product.reviews} reviews)</span>
-            </div> */}
+            </div>
 
-            {/* Price */}
-            <div className="flex items-baseline gap-3 mb-6">
-              <span className="text-3xl font-bold">
-                {formatCurrency(displayPrice)}
-              </span>
-              {hasDiscount && (
-                <span className="text-lg text-gray-500 line-through">
-                  {formatCurrency(product.price)}
+            {/* Product Info */}
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl mb-4">
+                {product.name}
+              </h1>
+
+              <div className="mb-5 inline-flex items-center gap-3 rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-600">
+                <span className="font-semibold">Category:</span>
+                <span>{product.category}</span>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3 mb-6">
+                <span className="text-3xl font-bold text-stone-900">
+                  {formatCurrency(displayPrice)}
                 </span>
-              )}
-            </div>
-
-            {/* Stock Status */}
-            <div className="mb-6">
-              {product.stock > 0 ? (
-                <Badge variant="default">
-                  In Stock ({product.stock} available)
-                </Badge>
-              ) : (
-                <Badge variant="destructive">Out of Stock</Badge>
-              )}
-            </div>
-
-            {/* Description */}
-            <p className="text-gray-700 mb-8 leading-relaxed">
-              {product.description}
-            </p>
-
-            {/* Tags */}
-            {product.tags.length > 0 && (
-              <div className="mb-8">
-                <p className="text-sm font-semibold text-gray-700 mb-3">
-                  Tags:
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {product.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
+                {hasDiscount && (
+                  <span className="text-lg text-gray-500 line-through">
+                    {formatCurrency(product.price)}
+                  </span>
+                )}
               </div>
-            )}
 
-            {/* Add to Cart Section */}
-            {product.stock > 0 && (
-              <div className="flex gap-4 mb-8">
-                <div className="flex items-center border border-gray-300 rounded-lg">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    −
-                  </button>
-                  <input
-                    type="number"
-                    value={quantity}
-                    onChange={(e) =>
-                      setQuantity(Math.max(1, parseInt(e.target.value) || 1))
-                    }
-                    className="w-16 text-center border-none outline-none"
-                  />
-                  <button
-                    onClick={() =>
-                      setQuantity(Math.min(product.stock, quantity + 1))
-                    }
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    +
-                  </button>
-                </div>
-                <Button onClick={handleAddToCart} size="lg" className="flex-1">
-                  <ShoppingCart className="mr-2" size={20} />
-                  Add to Cart
-                </Button>
+              {/* Stock Status */}
+              <div className="mb-6">
+                {product.stock > 0 ? (
+                  <Badge variant="default">
+                    In Stock ({product.stock} available)
+                  </Badge>
+                ) : (
+                  <Badge variant="destructive">Out of Stock</Badge>
+                )}
               </div>
-            )}
 
-            {/* Additional Info */}
-            <div className="border-t pt-8">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-gray-600">Category</p>
-                  <p className="font-semibold">{product.category}</p>
+              {/* Description */}
+              <p className="text-gray-700 mb-8 leading-relaxed">
+                {product.description}
+              </p>
+
+              {/* Tags */}
+              {product.tags.length > 0 && (
+                <div className="mb-8">
+                  <p className="text-sm font-semibold text-gray-700 mb-3">
+                    Tags:
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {product.tags.map((tag) => (
+                      <Badge key={tag} variant="secondary">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
-                <div>
-                  <p className="text-gray-600">SKU</p>
-                  <p className="font-semibold">{product._id.substring(0, 8)}</p>
+              )}
+
+              {/* Add to Cart Section */}
+              {product.stock > 0 && (
+                <div className="mb-8 space-y-4">
+                  <div className="flex max-w-xs items-center rounded-full border border-gray-200 bg-stone-50 p-1 shadow-sm">
+                    <button
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-full text-lg text-gray-600 transition hover:bg-white"
+                      aria-label="Decrease quantity"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      value={quantity}
+                      onChange={(e) =>
+                        setQuantity(Math.max(1, parseInt(e.target.value) || 1))
+                      }
+                      className="w-16 border-none bg-transparent text-center text-base font-semibold outline-none"
+                    />
+                    <button
+                      onClick={() =>
+                        setQuantity(Math.min(product.stock, quantity + 1))
+                      }
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-full text-lg text-gray-600 transition hover:bg-white"
+                      aria-label="Increase quantity"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <Button
+                    onClick={handleAddToCart}
+                    size="lg"
+                    className="w-full gap-2"
+                  >
+                    <ShoppingCart className="mr-2" size={20} />
+                    Add to Cart
+                  </Button>
+                </div>
+              )}
+
+              {/* Additional Info */}
+              <div className="border-t pt-8">
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-gray-600">Category</p>
+                    <p className="font-semibold">{product.category}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">SKU</p>
+                    <p className="font-semibold">
+                      {product._id.substring(0, 8)}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Related Products */}
+          {relatedProducts.length > 0 && (
+            <div>
+              <h2 className="text-3xl font-bold mb-8">Related Products</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {relatedProducts.map((related) => (
+                  <ProductCard key={related._id} product={related} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-
-        {/* Related Products */}
-        {relatedProducts.length > 0 && (
-          <div>
-            <h2 className="text-3xl font-bold mb-8">Related Products</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedProducts.map((related) => (
-                <ProductCard key={related._id} product={related} />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
